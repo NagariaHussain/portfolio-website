@@ -3,6 +3,7 @@ import yaml
 import markdown
 from pathlib import Path
 from yaml import CLoader
+from string import Template
 
 # Internal Libs
 from blog_generator import Blog
@@ -34,10 +35,29 @@ class SiteGenerator:
 
     def generate_blog_html_files(self) -> None:
         for blog in self.blogs:
+            # Generate HTML Head
+            head_template_file = open('partials/blog_head.html', 'r')
+            head_template = Template(head_template_file.read())
+
+            main_template_file = open('partials/main.html', 'r')
+            main_template = Template(main_template_file.read())
+
+            blog_head = head_template.substitute(blog["meta_data"])
+            
+            # Parse and add markdown
             with blog["md_file"].open('r') as f:
-                html = markdown.markdown(f.read())
-                out_path: Path = Path('dist/pages/blogs') / blog["md_file"].stem
-                out_path.with_suffix('.html').write_text(html)
+                blog_body = markdown.markdown(f.read())
+            
+            html = main_template.substitute(
+                {
+                    **blog["meta_data"],
+                    "blog_body": blog_body,
+                    "blog_head": blog_head
+                }
+            )
+            # Write output file
+            out_path: Path = Path('dist/pages/blogs') / blog["md_file"].stem
+            out_path.with_suffix('.html').write_text(html)
 
     def generate_blog_list_page(self) -> None:
         out_path: Path = Path('dist/pages') / 'blogs.html'
