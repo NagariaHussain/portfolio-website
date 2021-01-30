@@ -1,28 +1,39 @@
 import yaml
 
 from typing import Dict
+from dataclasses import dataclass
 from datetime import datetime
 from utils import slugify_title
 from pathlib import Path
 
+@dataclass 
+class Blog:
+    title: str = ''
+    subtitle: str = ''
+    author: str = ''
+    creation_date: datetime = None
+
 class BlogGenerator:
     def __init__(self) -> None:
-        self.meta_data = {}
+        self.meta_data = Blog()
 
     def get_blog_meta(self) -> Dict:
-        self.meta_data["title"] = input("title: ")
-        self.meta_data["subtitle"] = input("sub title: ")
-        self.meta_data["author"] = input("author: ")
-        self.meta_data["creation_date"] = datetime.now()
+        self.meta_data.title = input("title: ")
+        self.meta_data.subtitle = input("sub title: ")
+        self.meta_data.author = input("author: ")
+        self.meta_data.creation_date = datetime.now()
 
     def write_meta_yaml(self, meta_file_path: Path) -> None:
         with meta_file_path.open('w') as meta_file:
-            yaml.dump(self.meta_data, meta_file, Dumper=yaml.CDumper)
+            yaml.dump(
+                self.meta_data.__dict__, meta_file, 
+                Dumper=yaml.CDumper
+            )
 
     def generate(self) -> None:
         # Get metadata from user
         self.get_blog_meta()
-        slugged_title = slugify_title(self.meta_data["title"])
+        slugged_title = slugify_title(self.meta_data.title)
 
         # Create blog folder
         new_blog_path = 'blogs' / Path(slugged_title)
