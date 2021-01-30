@@ -110,8 +110,5 @@ class TestBlogGenerator(TestCase):
         # Remove generated folder
         Path(f'blogs/{self.TEST_TITLE}').rmdir()
         
-
-
-
 # Run the tests
 main()

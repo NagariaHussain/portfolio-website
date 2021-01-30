@@ -1,4 +1,7 @@
+# External Libs
 import sys
+
+# Internal Libs
 from blog_generator import BlogGenerator
 from site_generator import SiteGenerator
 

@@ -1,10 +1,12 @@
+# External Libs
 import yaml
-
 from typing import Dict
 from dataclasses import dataclass
 from datetime import datetime
-from utils import slugify_title
 from pathlib import Path
+
+# Internal Libs
+from utils import slugify_title
 
 @dataclass 
 class Blog:
