@@ -1,6 +1,8 @@
 
 # For Testing util functions
-from utils import slugify_title
+from utils import slugify_title, sort_blog_by_cd_lambda
+from datetime import datetime
+
 # For testing blog generation
 from blog_generator import BlogGenerator
 from pathlib import Path
@@ -26,6 +28,53 @@ class TestUtilities(TestCase):
         self.assertEqual(
             slugify_title('Yet another test with 1234 Numbers, yes.'), 'yet-another-test-with-1234-numbers-yes'
         )
+
+    def test_sort_lambda(self):
+        unsorted_test_data = [
+            {
+                "meta_data": {
+                    "title": "Hello 1",
+                    "creation_date": datetime(2021, 12, 12)
+                }
+            },
+            {
+                "meta_data": {
+                    "title": "Hello 2",
+                    "creation_date": datetime(2021, 1, 26)
+                }
+            },
+            {
+                "meta_data": {
+                    "title": "Hello 3",
+                    "creation_date": datetime(2021, 1, 1)
+                }
+            }
+        ]
+
+        sorted_test_data = [
+            {
+                "meta_data": {
+                    "title": "Hello 3",
+                    "creation_date": datetime(2021, 1, 1)
+                }
+            },
+            {
+                "meta_data": {
+                    "title": "Hello 2",
+                    "creation_date": datetime(2021, 1, 26)
+                }
+            },
+            {
+                "meta_data": {
+                    "title": "Hello 1",
+                    "creation_date": datetime(2021, 12, 12)
+                }
+            },
+        ]
+
+        unsorted_test_data.sort(key=sort_blog_by_cd_lambda)
+
+        self.assertListEqual(sorted_test_data, unsorted_test_data)
 
 class TestBlogGenerator(TestCase):
     TEST_TITLE = 'some-super-title'

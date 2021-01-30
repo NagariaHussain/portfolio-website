@@ -8,3 +8,5 @@ def slugify_title(title: str) -> str:
             slugged_title += '-'
 
     return slugged_title
+
+sort_blog_by_cd_lambda = lambda x:x["meta_data"]["creation_date"]
