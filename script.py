@@ -1,5 +1,6 @@
 # External Libs
 import sys
+import subprocess
 
 # Internal Libs
 from blog_generator import BlogGenerator
@@ -15,3 +16,7 @@ if sys.argv[1] == "new":
 elif sys.argv[1] == "gen":
     site_gen = SiteGenerator()
     site_gen.generate()
+
+    # Compile sass
+    subprocess.run(['npm', 'run', 'compile-sass'], shell=True)
+    subprocess.run(['npm', 'run', 'minify-css'], shell=True)

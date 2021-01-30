@@ -1,0 +1,30 @@
+{
+  "name": "portfolio-website",
+  "version": "0.0.1",
+  "description": "My Personal Website, a python static site generator",
+  "main": "index.js",
+  "scripts": {
+    "compile-sass": "npx node-sass sass/main.scss dist/css/main.css",
+    "minify-css": "npx csso dist/css/main.css -o dist/css/main.min.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NagariaHussain/portfolio-website.git"
+  },
+  "keywords": [
+    "python",
+    "static",
+    "blog"
+  ],
+  "author": "Mohammad Hussain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NagariaHussain/portfolio-website/issues"
+  },
+  "homepage": "https://github.com/NagariaHussain/portfolio-website#readme",
+  "dependencies": {
+    "csso": "^4.2.0",
+    "node-sass": "^5.0.0"
+  }
+}
