@@ -39,13 +39,23 @@ class SiteGenerator:
                 out_path: Path = Path('dist/pages/blogs') / blog["md_file"].stem
                 out_path.with_suffix('.html').write_text(html)
 
-
-
-
     def generate_blog_list_page(self) -> None:
-        pass
+        out_path: Path = Path('dist/pages') / 'blogs.html'
+        html = "<ul>"
+        
+        for blog in self.blogs:
+            blog_title = blog["meta_data"]["title"]
+            blog_html_url = "/dist/pages/blogs/" + blog["md_file"].with_suffix('.html').name
+            html += f'<li><a href="{blog_html_url}">{blog_title}</a></li>'
+
+        html += "</ul>"
+        out_path.write_text(html)
 
     def generate(self) -> None:
+        # Generate Blogs
+        self.generate_blogs()
+
+    def generate_blogs(self) -> None:
         # Load blogs into memory
         self.load_blogs()
 
