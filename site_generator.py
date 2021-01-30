@@ -7,11 +7,12 @@ from string import Template
 
 # Internal Libs
 from blog_generator import Blog
-from utils import sort_blog_by_cd_lambda
+from utils import slugify_title, sort_blog_by_cd_lambda
 
 class SiteGenerator:
     def __init__(self) -> None:
         self.blogs = []
+        self.projects = []
     
     def load_blogs(self) -> None:
         for path in Path('blogs').iterdir():
@@ -75,6 +76,9 @@ class SiteGenerator:
         # Generate Blogs
         self.generate_blogs()
 
+        # Generate projects
+        self.generate_projects()
+
     def generate_blogs(self) -> None:
         # Load blogs into memory
         self.load_blogs()
@@ -88,5 +92,23 @@ class SiteGenerator:
         # Generate Blog list HTML page
         self.generate_blog_list_page()
 
-site_gen = SiteGenerator()
-site_gen.generate()
+    def generate_project_html_files(self) -> None:
+        for project in self.projects:
+            body_html = markdown.markdown(project["body"])
+            file_name = slugify_title(project["name"]) + ".html"
+            out_path = Path('dist/pages/projects') / file_name
+            out_path.write_text(body_html)
+
+    def generate_projects(self) -> None:
+        # Load projects into memory
+        self.load_projects()
+
+        # Generate project HTML files
+        self.generate_project_html_files()
+
+    def load_projects(self) -> None:
+         for path in Path('projects').iterdir():
+            if path.is_file():
+                with path.open('r') as proj_file:
+                    project_data = yaml.load(proj_file, Loader=CLoader)
+                    self.projects.append(project_data)
