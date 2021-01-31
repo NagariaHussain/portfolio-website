@@ -9,6 +9,9 @@ from pathlib import Path
 import yaml
 from yaml import CLoader
 
+# For project generation
+from project_generator import ProjectGenerator
+
 from unittest import TestCase, loader, main
 from unittest.mock import patch, Mock
 
@@ -110,5 +113,8 @@ class TestBlogGenerator(TestCase):
         # Remove generated folder
         Path(f'blogs/{self.TEST_TITLE}').rmdir()
         
+class TestProjectGenerator(TestCase):
+    pass
+
 # Run the tests
 main()

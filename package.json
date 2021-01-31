@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/NagariaHussain/portfolio-website#readme",
   "dependencies": {
+    "@primer/css": "^15.2.0",
     "csso": "^4.2.0",
     "node-sass": "^5.0.0"
   }

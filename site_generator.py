@@ -106,6 +106,20 @@ class SiteGenerator:
         # Generate project HTML files
         self.generate_project_html_files()
 
+        # Generate projects list page
+        self.generate_projects_list_page()
+
+    def generate_projects_list_page(self) -> None:
+        out_path: Path = Path('dist/pages') / 'projects.html'
+
+        html = "<ul>\n"
+        for proj in self.projects:
+            proj_url = "projects/" + slugify_title(proj["name"]) + ".html"
+            html += f'<li><a href="{proj_url}">{proj["name"]}</a></li>\n'
+        html += "</ul>"
+
+        out_path.write_text(html)
+
     def load_projects(self) -> None:
          for path in Path('projects').iterdir():
             if path.is_file():

@@ -28,7 +28,7 @@ class ProjectGenerator:
             "caption2": "url2"
         }
 
-        self.data["body"] = "|"
+        self.data["body"] = 'replace with "|" character'
 
 
     def write_data_yaml(self) -> None:

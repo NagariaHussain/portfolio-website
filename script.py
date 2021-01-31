@@ -1,8 +1,9 @@
 # External Libs
 import sys
-import subprocess
+from utils import process_sass_files
 
 # Internal Libs
+import watcher
 from blog_generator import BlogGenerator
 from site_generator import SiteGenerator
 from project_generator import ProjectGenerator
@@ -22,10 +23,12 @@ if sys.argv[1] == "new":
         print("Invalid 2nd argument with 'new'. Try Again!")
 
 elif sys.argv[1] == "gen":
+    # Generate site
     site_gen = SiteGenerator()
     site_gen.generate()
 
-    # Transpile sass files
-    subprocess.run(['npm', 'run', 'compile-sass'], shell=True)
-    # Minify main css file
-    subprocess.run(['npm', 'run', 'minify-css'], shell=True)
+    # Process SASS files
+    process_sass_files()
+
+if __name__ == "__main__":
+    watcher.start_watching()
