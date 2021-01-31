@@ -1,4 +1,5 @@
 import subprocess
+from pathlib import Path
 
 # For creating a slug string
 def slugify_title(title: str) -> str:
@@ -16,12 +17,19 @@ def slugify_title(title: str) -> str:
 sort_blog_by_cd_lambda = lambda x:x["meta_data"]["creation_date"]
 
 def process_sass_files():
-    # Transpile sass files
-    # npx node-sass sass/main.scss dist/css/main.css
-    subprocess.run(['npx', 'node-sass', 'sass/main.scss', 'dist/css/main.css'], shell=True)
-    subprocess.run(['npx', 'node-sass', 'sass/blog.scss', 'dist/css/blog.css'], shell=True)
-    
-    # Minify main css file
-    # npx csso dist/css/main.css -o dist/css/main.min.css
-    subprocess.run(['npx', 'csso', 'dist/css/main.css', '-o', 'dist/css/main.min.css'], shell=True)
-    subprocess.run(['npx', 'csso', 'dist/css/blog.css', '-o', 'dist/css/blog.min.css'], shell=True)
+    for path in Path('sass').iterdir():
+        if path.is_file() and path.suffix == ".scss":
+            sass_path_string = str(path)
+            css_path_string =  Path("dist/css") / (path.stem + ".css")
+            mincss_path_string =  Path("dist/css") / (path.stem + ".min.css")
+
+            subprocess.run(
+                ['npx', 'node-sass', sass_path_string, css_path_string], 
+                shell=True
+            )
+        
+            subprocess.run(
+                ['npx', 'csso', css_path_string, '-o', mincss_path_string]
+                , shell=True
+            )
+            
