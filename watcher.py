@@ -28,6 +28,7 @@ def on_created(event: FileCreatedEvent):
         site_gen.generate()
 
 def start_watching():
+    '''start watchdog, watching to file modifications'''
     patterns = "*"
     ignore_patterns = ""
     ignore_directories = False

@@ -1,5 +1,5 @@
 # External Libs
-import sys
+import argparse
 from utils import process_sass_files
 
 # Internal Libs
@@ -8,27 +8,36 @@ from blog_generator import BlogGenerator
 from site_generator import SiteGenerator
 from project_generator import ProjectGenerator
 
-if len(sys.argv) < 2:
-    print("Enter atleast one argument")
-    exit(0)
+# Parsing command line arguments
+parser = argparse.ArgumentParser()
 
-if sys.argv[1] == "new":
-    if sys.argv[2] == "blog":
-        blog_gen = BlogGenerator()
-        blog_gen.generate()
-    elif sys.argv[2] == "project":
-        project_gen = ProjectGenerator()
-        project_gen.generate()
-    else:
-        print("Invalid 2nd argument with 'new'. Try Again!")
+# For creation of new site content
+parser.add_argument("--new", "-n", choices=["blog", "project"], help="generate new site content")
 
-elif sys.argv[1] == "gen":
-    # Generate site
-    site_gen = SiteGenerator()
-    site_gen.generate()
+# For watching file changes
+parser.add_argument("--watch", "-w", help="watch for file changes", action="store_true")
 
-    # Process SASS files
-    process_sass_files()
+# Parse arguments
+args = parser.parse_args()
 
-if __name__ == "__main__":
+# Based on --new flag
+if args.new == "blog":
+    # Generate a new blog boiler plate
+    blog_gen = BlogGenerator()
+    blog_gen.generate()
+elif args.new == "project":
+    # Generate a new project boiler plate
+    project_gen = ProjectGenerator()
+    project_gen.generate()
+
+# Generate site
+site_gen = SiteGenerator()
+site_gen.generate()
+
+# Process SASS files
+process_sass_files()
+
+# To watch for file changes
+if args.watch:
+    print("watching for file changes...")
     watcher.start_watching()
