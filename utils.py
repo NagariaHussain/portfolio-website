@@ -1,6 +1,9 @@
 import subprocess
 from pathlib import Path
 
+# ---------
+# Functions
+# ---------
 # For creating a slug string
 def slugify_title(title: str) -> str:
     '''returns a sluggified version of the given `title`'''
@@ -13,9 +16,7 @@ def slugify_title(title: str) -> str:
 
     return slugged_title
 
-# For sorting blogs by creation date
-sort_blog_by_cd_lambda = lambda x:x["meta_data"]["creation_date"]
-
+# For processing sass files
 def process_sass_files():
     for path in Path('sass').iterdir():
         if path.is_file() and path.suffix == ".scss":
@@ -32,4 +33,9 @@ def process_sass_files():
                 ['npx', 'csso', css_path_string, '-o', mincss_path_string]
                 , shell=True
             )
-            
+
+# -------
+# LAMBDAS
+# -------
+# For sorting blogs by creation date
+sort_blog_by_cd_lambda = lambda x:x["meta_data"]["creation_date"]
