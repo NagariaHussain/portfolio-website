@@ -16,17 +16,23 @@ def rerender_site(modified_file: Path):
     if Path('blogs') in list(modified_file.parents):
         print('blog file modified.')
         site_gen = SiteGenerator()
-        site_gen.generate()
+        site_gen.generate_blogs()
     
     if Path('projects') in list(modified_file.parents):
         print('project file modified.')
         site_gen = SiteGenerator()
-        site_gen.generate()
+        site_gen.generate_projects()
 
     if Path('partials') in list(modified_file.parents):
         print('partials file modified.')
         site_gen = SiteGenerator()
         site_gen.generate()
+
+    if modified_file == Path('about.yaml'):
+        print('about page data changed')
+        site_gen = SiteGenerator()
+        site_gen.generate_about_page()
+
 
 def on_modified(event: FileModifiedEvent):
     modified_file = Path(event.src_path)

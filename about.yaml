@@ -1,9 +1,12 @@
 full_name: Mohammad Hussain Nagaria
-display_name: Mohammad Hussain
+display_name: Hussain
 avatar_url: 'hussain.codes'
 description: >
   Hello, I Mohammad Hussain! I am a 2nd year Computer Science undergraduate
   from University of London.
+
+super_powers:
+  - 1
 education:
   -
     institution: University of London
@@ -15,4 +18,14 @@ education:
     institution: Nirmal Higher Secondary School, Jagdalpur
     start_year: 2016
     end_year: 2018
-    degree: Mathematics Stream
+    degree: AISSCE, Mathematics with CS Stream
+
+books:
+  - 
+    name: The Lean Startup
+    authors: ['1', '2']
+    cover_image_url: ''
+  -
+    name: Zero to One
+    authors: ['2', '5']
+    cover_image_url: ''

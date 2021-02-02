@@ -152,7 +152,15 @@ class SiteGenerator:
             education_list_html += f'<li>{education["degree"]}</li>'
         education_list_html += '</ul>'
 
+
+        # Generate HTML for books list
+        books_list_html = "<ul>"
+        for book in data["books"]:
+            books_list_html += f'<li>{book["name"]}(authors: {book["authors"]})</li>'
+        books_list_html += "</ul>"
+
         data["education"] = education_list_html
+        data["books"] = books_list_html
 
         # Render and save template
         with out_path.open('w') as out_file:
