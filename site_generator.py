@@ -1,5 +1,5 @@
 # External Libs
-from typing import Dict
+from typing import Dict, List
 import yaml
 import markdown
 from pathlib import Path
@@ -7,7 +7,6 @@ from yaml import CLoader
 from string import Template
 
 # Internal Libs
-from blog_generator import Blog
 from utils import slugify_title, sort_blog_by_cd_lambda
 
 class SiteGenerator:
@@ -148,27 +147,38 @@ class SiteGenerator:
         about_template = Template(about_template)
 
         # Generate HTML for education list
-        data["education"] = self.get_education_list_html()
+        data["education"] = self.get_education_list_html(data["education"])
         
         # Generate HTML for books list
-        data["books"] = self.get_book_list_html()
+        data["books"] = self.get_book_list_html(data["books"])
 
+        # Generate HTML for work experience
+        data["work_experience"] = self.get_work_experience_html(
+                                        data["work_experience"]
+                                    )
+        
         # Render and save template
         with out_path.open('w') as out_file:
             html = about_template.safe_substitute(data)
             out_file.write(html)
 
-    def get_education_list_html(self, data: Dict) -> str:
+    def get_education_list_html(self, educations: List) -> str:
         education_list_html = '<ul>'
-        for education in data["education"]:
+        for education in educations:
             education_list_html += f'<li>{education["degree"]}</li>'
         education_list_html += '</ul>'
         return education_list_html
 
-    def get_book_list_html(self, data: Dict) -> str:
+    def get_book_list_html(self, books: List) -> str:
         books_list_html = "<ul>"
-        for book in data["books"]:
+        for book in books:
             books_list_html += f'<li>{book["name"]}(authors: {book["authors"]})</li>'
         books_list_html += "</ul>"
         return books_list_html
-        
+
+    def get_work_experience_html(self, works: List):
+        we_html = "<ul>"
+        for work in works:
+            we_html += f'<li>{work["position"]}</li>'
+        we_html += "</ul>"
+        return we_html

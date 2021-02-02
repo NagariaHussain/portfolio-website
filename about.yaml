@@ -5,8 +5,29 @@ description: >
   Hello, I Mohammad Hussain! I am a 2nd year Computer Science undergraduate
   from University of London.
 
+# A.K.A. Skills
 super_powers:
-  - 1
+  - Python
+  - JavaScript
+  - HTML
+  - CSS
+
+work_experience:
+  -
+    position: Junior Instructor
+    company: Learn Programming Academy
+    start_month: 4
+    start_year: 2020
+    is_current: true
+  
+  -
+    position: SDE Intern
+    company: TBD
+    start_month: 3
+    start_year: 2021
+    end_month: 5
+    end_year: 2021
+
 education:
   -
     institution: University of London
@@ -23,7 +44,7 @@ education:
 books:
   - 
     name: The Lean Startup
-    authors: ['1', '2']
+    authors: ['Eric Reves']
     cover_image_url: ''
   -
     name: Zero to One
