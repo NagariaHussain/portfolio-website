@@ -1,10 +1,12 @@
 # External Libs
-from typing import Dict, List
 import yaml
 import markdown
-from pathlib import Path
+from markdown.extensions import fenced_code
 from yaml import CLoader
+from typing import List
+from pathlib import Path
 from string import Template
+from datetime import datetime
 
 # Internal Libs
 from utils import slugify_title, sort_blog_by_cd_lambda
@@ -43,11 +45,15 @@ class SiteGenerator:
             main_template_file = open('partials/main.html', 'r')
             main_template = Template(main_template_file.read())
 
+            # Create formatted datetime string
+            creation_date: datetime = blog["meta_data"]["creation_date"]
+            blog["meta_data"]["creation_date"] = creation_date.strftime("%d %B, %Y")
+            
             blog_head = head_template.substitute(blog["meta_data"])
             
             # Parse and add markdown
             with blog["md_file"].open('r') as f:
-                blog_body = markdown.markdown(f.read())
+                blog_body = markdown.markdown(f.read(), extensions=['fenced_code', 'codehilite'])
             
             html = main_template.substitute(
                 {
