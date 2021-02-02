@@ -1,0 +1,18 @@
+full_name: Mohammad Hussain Nagaria
+display_name: Mohammad Hussain
+avatar_url: 'hussain.codes'
+description: >
+  Hello, I Mohammad Hussain! I am a 2nd year Computer Science undergraduate
+  from University of London.
+education:
+  -
+    institution: University of London
+    start_year: 2019
+    end_year: 2023
+    degree: BSc (Hons.) Computer Science
+  
+  -
+    institution: Nirmal Higher Secondary School, Jagdalpur
+    start_year: 2016
+    end_year: 2018
+    degree: Mathematics Stream

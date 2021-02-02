@@ -79,6 +79,9 @@ class SiteGenerator:
         # Generate projects
         self.generate_projects()
 
+        # Generate about page
+        self.generate_about_page()
+
     def generate_blogs(self) -> None:
         # Load blogs into memory
         self.load_blogs()
@@ -126,3 +129,36 @@ class SiteGenerator:
                 with path.open('r') as proj_file:
                     project_data = yaml.load(proj_file, Loader=CLoader)
                     self.projects.append(project_data)
+
+    def generate_about_page(self) -> None:
+        # Output HTML file path
+        out_path = Path('dist/pages/about.html')
+
+        # Load about data
+        with open('about.yaml', 'r') as about_me:
+            data = yaml.load(about_me, Loader=CLoader)
+        
+        # Get the about template string
+        template_file = open('partials/about.html')
+        about_template = template_file.read()
+        template_file.close()
+
+        # Create template
+        about_template = Template(about_template)
+
+        # Generate HTML for education list
+        education_list_html = '<ul>'
+        for education in data["education"]:
+            education_list_html += f'<li>{education["degree"]}</li>'
+        education_list_html += '</ul>'
+
+        data["education"] = education_list_html
+
+        # Render and save template
+        with out_path.open('w') as out_file:
+            html = about_template.safe_substitute(data)
+            out_file.write(html)
+
+
+
+        
