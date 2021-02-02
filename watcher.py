@@ -8,24 +8,33 @@ from watchdog.events import PatternMatchingEventHandler, FileModifiedEvent, File
 from utils import process_sass_files
 from site_generator import SiteGenerator
 
-def on_modified(event: FileModifiedEvent):
-    modified_file = Path(event.src_path)
-
-    if modified_file.parent == Path("sass"):
+def rerender_site(modified_file: Path):
+    if Path("sass") in modified_file.parents:
         print("SCSS files modified. recompiling...")
         process_sass_files()
 
-    if modified_file.parent in (Path("blogs"), Path("projects"), Path("partials")):
+    if Path('blogs') in list(modified_file.parents):
+        print('blog file modified.')
+        site_gen = SiteGenerator()
+        site_gen.generate()
+    
+    if Path('projects') in list(modified_file.parents):
+        print('project file modified.')
         site_gen = SiteGenerator()
         site_gen.generate()
 
+    if Path('partials') in list(modified_file.parents):
+        print('partials file modified.')
+        site_gen = SiteGenerator()
+        site_gen.generate()
+
+def on_modified(event: FileModifiedEvent):
+    modified_file = Path(event.src_path)
+    rerender_site(modified_file)
+ 
 def on_created(event: FileCreatedEvent):
     created_file = Path(event.src_path)
-
-    if created_file.parent in (Path("blogs"), Path("projects"), Path("partials")):
-        print("Changes detected. Regenerating site...")
-        site_gen = SiteGenerator()
-        site_gen.generate()
+    rerender_site(created_file)
 
 def start_watching():
     '''start watchdog, watching to file modifications'''
