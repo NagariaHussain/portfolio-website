@@ -1,4 +1,5 @@
 # External Libs
+from typing import Dict
 import yaml
 import markdown
 from pathlib import Path
@@ -147,26 +148,27 @@ class SiteGenerator:
         about_template = Template(about_template)
 
         # Generate HTML for education list
-        education_list_html = '<ul>'
-        for education in data["education"]:
-            education_list_html += f'<li>{education["degree"]}</li>'
-        education_list_html += '</ul>'
-
-
+        data["education"] = self.get_education_list_html()
+        
         # Generate HTML for books list
-        books_list_html = "<ul>"
-        for book in data["books"]:
-            books_list_html += f'<li>{book["name"]}(authors: {book["authors"]})</li>'
-        books_list_html += "</ul>"
-
-        data["education"] = education_list_html
-        data["books"] = books_list_html
+        data["books"] = self.get_book_list_html()
 
         # Render and save template
         with out_path.open('w') as out_file:
             html = about_template.safe_substitute(data)
             out_file.write(html)
 
+    def get_education_list_html(self, data: Dict) -> str:
+        education_list_html = '<ul>'
+        for education in data["education"]:
+            education_list_html += f'<li>{education["degree"]}</li>'
+        education_list_html += '</ul>'
+        return education_list_html
 
-
+    def get_book_list_html(self, data: Dict) -> str:
+        books_list_html = "<ul>"
+        for book in data["books"]:
+            books_list_html += f'<li>{book["name"]}(authors: {book["authors"]})</li>'
+        books_list_html += "</ul>"
+        return books_list_html
         
